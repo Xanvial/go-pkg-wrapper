@@ -8,7 +8,7 @@ import (
 var logger = NewZerolog(Config{
 	OutputType: OutputStdout,
 	LogLevel:   LogLevelInfo,
-	TimeFormat: LogTimeFormatStamp,
+	TimeFormat: LogTimeFormatUnix,
 })
 
 func SetLogger(log Log) {

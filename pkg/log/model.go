@@ -19,7 +19,8 @@ type LogTimeFormat int
 
 const (
 	LogTimeFormatDisable = iota
-	LogTimeFormatStamp
+	LogTimeFormatUnix
+	LogTimeFormatTimestamp
 )
 
 type Output int

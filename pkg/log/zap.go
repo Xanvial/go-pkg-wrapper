@@ -47,16 +47,29 @@ func NewZaplog(cfg Config) Log {
 		targetOutput = cfg.OutputFilePath
 	}
 
+	encoderCfg := zap.NewProductionEncoderConfig()
+	encoderCfg.TimeKey = "time" // parity with zerolog format
+
+	switch cfg.TimeFormat {
+	case LogTimeFormatTimestamp:
+		encoderCfg.EncodeTime = zapcore.RFC3339TimeEncoder
+	case LogTimeFormatUnix:
+		encoderCfg.EncodeTime = zapcore.EpochTimeEncoder
+	case LogTimeFormatDisable:
+		encoderCfg.TimeKey = ""
+	}
+
 	zapConfig := zap.Config{
 		Level:             zap.NewAtomicLevelAt(zapLogLevel),
 		Development:       false,
 		DisableStacktrace: true,
+		DisableCaller:     true,
 		Sampling: &zap.SamplingConfig{
 			Initial:    100,
 			Thereafter: 100,
 		},
 		Encoding:         "json",
-		EncoderConfig:    zap.NewProductionEncoderConfig(),
+		EncoderConfig:    encoderCfg,
 		OutputPaths:      []string{targetOutput},
 		ErrorOutputPaths: []string{targetOutput},
 	}

@@ -5,6 +5,7 @@ import (
 	"io"
 	stdLog "log"
 	"os"
+	"time"
 
 	"github.com/rs/zerolog"
 )
@@ -41,8 +42,14 @@ func NewZerolog(cfg Config) Log {
 	builder := zerolog.New(targetOutput).With()
 
 	switch cfg.TimeFormat {
-	case LogTimeFormatStamp:
+	case LogTimeFormatTimestamp:
+		zerolog.TimeFieldFormat = time.RFC3339
 		builder = builder.Timestamp()
+	case LogTimeFormatUnix:
+		zerolog.TimeFieldFormat = zerolog.TimeFormatUnix
+		builder = builder.Timestamp()
+	case LogTimeFormatDisable:
+		// do nothing
 	}
 
 	var zeroLogLevel zerolog.Level
