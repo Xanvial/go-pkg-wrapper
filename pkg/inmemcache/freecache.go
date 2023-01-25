@@ -12,7 +12,7 @@ type freeCache[T any] struct {
 }
 
 // !!WIP, currently not fully work
-func NewFreeCache[T any](cfg Config[T]) InMemCache[T] {
+func NewFreeCache[T any](cfg Config) InMemCache[T] {
 	return &freeCache[T]{
 		cache: freecache.NewCache(cfg.MaxSizeCount),
 	}

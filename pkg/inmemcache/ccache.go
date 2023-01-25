@@ -10,7 +10,7 @@ type cCache[T any] struct {
 	cache *ccache.Cache[T]
 }
 
-func NewCCache[T any](cfg Config[T]) InMemCache[T] {
+func NewCCache[T any](cfg Config) InMemCache[T] {
 	configuration := ccache.Configure[T]()
 	if cfg.MaxSizeCount > 0 {
 		configuration.MaxSize(int64(cfg.MaxSizeCount))
