@@ -8,6 +8,6 @@ tmpCache := inmemcache.NewCCache[int](inmemcache.Config{})
 tmpCache.Set("data1", 123123, time.Minute)
 
 // Get the data and print it
-res := tmpCache.Get("data1")
-log.Println("res:", res)
+res, err := tmpCache.Get("data1")
+log.Println("res:", res, "err:", err)
 ```
