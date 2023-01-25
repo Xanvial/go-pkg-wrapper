@@ -49,7 +49,7 @@ func (fc *freeCache[T]) Fetch(key string, dur time.Duration, fetch func() (T, er
 
 	value, err := fetch()
 	if err != nil {
-		return result, err
+		return value, err
 	}
 
 	fc.Set(key, value, dur)
