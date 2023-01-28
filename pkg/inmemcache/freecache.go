@@ -22,7 +22,7 @@ func (fc *freeCache[T]) Get(key string) (T, error) {
 	var result T
 	data, err := fc.cache.Get([]byte(key))
 	if err != nil {
-		return result, errEmptyCache
+		return result, err
 	}
 
 	json.Unmarshal(data, &result)
@@ -43,7 +43,7 @@ func (fc *freeCache[T]) Fetch(key string, dur time.Duration, fetch func() (T, er
 	var result T
 	tmpData, err := fc.cache.Get([]byte(key))
 	if tmpData != nil {
-		json.Unmarshal(tmpData, result)
+		json.Unmarshal(tmpData, &result)
 		return result, nil
 	}
 
