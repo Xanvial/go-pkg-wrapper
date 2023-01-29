@@ -11,7 +11,6 @@ type freeCache[T any] struct {
 	cache *freecache.Cache
 }
 
-// !!WIP, currently not fully work
 func NewFreeCache[T any](cfg Config) InMemCache[T] {
 	return &freeCache[T]{
 		cache: freecache.NewCache(cfg.MaxSizeCount),
@@ -29,14 +28,15 @@ func (fc *freeCache[T]) Get(key string) (T, error) {
 	return result, nil
 }
 
-func (fc *freeCache[T]) Set(key string, val T, dur time.Duration) {
+func (fc *freeCache[T]) Set(key string, val T, dur time.Duration) error {
 	data, err := json.Marshal(val)
 	if err != nil {
 		// do nothing
-		return
+		return err
 	}
 
 	fc.cache.Set([]byte(key), data, int(dur.Seconds()))
+	return nil
 }
 
 func (fc *freeCache[T]) Fetch(key string, dur time.Duration, fetch func() (T, error)) (T, error) {
@@ -56,6 +56,6 @@ func (fc *freeCache[T]) Fetch(key string, dur time.Duration, fetch func() (T, er
 	return value, nil
 }
 
-func (fc *freeCache[T]) Delete(key string) {
+func (fc *freeCache[T]) Delete(key string) error {
 	fc.cache.Del([]byte(key))
 }

@@ -1,6 +1,6 @@
 package log
 
-type KV map[string]interface{}
+type KV map[string]any
 
 type LogLevel int
 

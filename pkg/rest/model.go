@@ -8,7 +8,7 @@ type Config struct {
 
 type RestParam struct {
 	Url          string
-	JsonBodyData interface{}
+	JsonBodyData any
 	QueryParam   map[string]string
 	Header       map[string][]string
 }

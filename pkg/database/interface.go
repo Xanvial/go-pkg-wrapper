@@ -1,8 +1,8 @@
 package database
 
 type Database interface {
-	QueryRow(query string, result interface{}, params ...interface{}) error
-	Query(query string, result interface{}, params ...interface{}) error
-	Exec(query string, params ...interface{}) error
-	ExecReturn(query string, params ...interface{}) (int, error)
+	QueryRow(query string, result any, params ...any) error
+	Query(query string, result any, params ...any) error
+	Exec(query string, params ...any) error
+	ExecReturn(query string, params ...any) (int, error)
 }

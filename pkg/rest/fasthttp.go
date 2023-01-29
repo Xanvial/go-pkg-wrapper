@@ -3,10 +3,10 @@ package rest
 import (
 	"context"
 	"encoding/json"
+	"fmt"
 	"net/http"
 	"time"
 
-	"github.com/pkg/errors"
 	"github.com/valyala/fasthttp"
 )
 
@@ -50,7 +50,7 @@ func (fh *fastHttp) connect(ctx context.Context, method string, param RestParam)
 	if param.JsonBodyData != nil {
 		jsonByte, err := json.Marshal(param.JsonBodyData)
 		if err != nil {
-			return 0, nil, errors.Wrap(err, "invalid json format")
+			return 0, nil, fmt.Errorf("invalid json format: %w", err)
 		}
 		req.SetBody(jsonByte)
 	}
@@ -67,7 +67,7 @@ func (fh *fastHttp) connect(ctx context.Context, method string, param RestParam)
 
 	err := fasthttp.DoTimeout(req, resp, fh.timeout)
 	if err != nil {
-		return 0, nil, err
+		return 0, nil, fmt.Errorf("failed to execute http request: %w", err)
 	}
 
 	return resp.StatusCode(), resp.Body(), nil

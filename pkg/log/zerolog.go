@@ -89,48 +89,48 @@ func (zl *zerologger) Printf(msg string, v ...any) {
 func (zl *zerologger) Trace(ctx context.Context, msg string, err error, fields KV) {
 	zl.logger.Trace().
 		Err(err).
-		Fields(map[string]interface{}(fields)).
+		Fields(map[string]any(fields)).
 		Msg(msg)
 }
 
 func (zl *zerologger) Info(ctx context.Context, msg string, err error, fields KV) {
 	zl.logger.Info().
 		Err(err).
-		Fields(map[string]interface{}(fields)).
+		Fields(map[string]any(fields)).
 		Msg(msg)
 }
 
 func (zl *zerologger) Warn(ctx context.Context, msg string, err error, fields KV) {
 	zl.logger.Warn().
 		Err(err).
-		Fields(map[string]interface{}(fields)).
+		Fields(map[string]any(fields)).
 		Msg(msg)
 }
 
 func (zl *zerologger) Error(ctx context.Context, msg string, err error, fields KV) {
 	zl.logger.Error().
 		Err(err).
-		Fields(map[string]interface{}(fields)).
+		Fields(map[string]any(fields)).
 		Msg(msg)
 }
 
 func (zl *zerologger) Debug(ctx context.Context, msg string, err error, fields KV) {
 	zl.logger.Debug().
 		Err(err).
-		Fields(map[string]interface{}(fields)).
+		Fields(map[string]any(fields)).
 		Msg(msg)
 }
 
 func (zl *zerologger) Panic(ctx context.Context, msg string, err error, fields KV) {
 	zl.logger.Panic().
 		Err(err).
-		Fields(map[string]interface{}(fields)).
+		Fields(map[string]any(fields)).
 		Msg(msg)
 }
 
 func (zl *zerologger) Fatal(ctx context.Context, msg string, err error, fields KV) {
 	zl.logger.Fatal().
 		Err(err).
-		Fields(map[string]interface{}(fields)).
+		Fields(map[string]any(fields)).
 		Msg(msg)
 }

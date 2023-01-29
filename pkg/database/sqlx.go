@@ -71,23 +71,15 @@ func NewSqlxDB(cfg Config) (Database, error) {
 	}, nil
 }
 
-func (sd *sqlxDB) QueryRow(query string, result interface{}, params ...interface{}) error {
-	err := sd.db.QueryRowx(query, params...).StructScan(result)
-	if err != nil {
-		return err
-	}
-	return nil
+func (sd *sqlxDB) QueryRow(query string, result any, params ...any) error {
+	return sd.db.QueryRowx(query, params...).StructScan(result)
 }
 
-func (sd *sqlxDB) Query(query string, result interface{}, params ...interface{}) error {
-	err := sd.db.Select(result, query, params...)
-	if err != nil {
-		return err
-	}
-	return nil
+func (sd *sqlxDB) Query(query string, result any, params ...any) error {
+	return sd.db.Select(result, query, params...)
 }
 
-func (sd *sqlxDB) Exec(query string, params ...interface{}) error {
+func (sd *sqlxDB) Exec(query string, params ...any) error {
 	_, err := sd.db.Exec(query, params...)
 	if err != nil {
 		return err
@@ -95,11 +87,7 @@ func (sd *sqlxDB) Exec(query string, params ...interface{}) error {
 	return nil
 }
 
-func (sd *sqlxDB) ExecReturn(query string, params ...interface{}) (int, error) {
-	var returning int
-	err := sd.db.QueryRow(query, params...).Scan(&returning)
-	if err != nil {
-		return 0, err
-	}
-	return returning, nil
+func (sd *sqlxDB) ExecReturn(query string, params ...any) (returning int, err error) {
+	err = sd.db.QueryRow(query, params...).Scan(&returning)
+	return
 }

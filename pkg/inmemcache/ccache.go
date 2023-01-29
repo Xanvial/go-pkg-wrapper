@@ -31,8 +31,9 @@ func (cc *cCache[T]) Get(key string) (T, error) {
 	return data.Value(), nil
 }
 
-func (cc *cCache[T]) Set(key string, val T, dur time.Duration) {
+func (cc *cCache[T]) Set(key string, val T, dur time.Duration) error {
 	cc.cache.Set(key, val, dur)
+	return nil
 }
 
 func (cc *cCache[T]) Fetch(key string, dur time.Duration, fetch func() (T, error)) (T, error) {
@@ -45,6 +46,7 @@ func (cc *cCache[T]) Fetch(key string, dur time.Duration, fetch func() (T, error
 	return data.Value(), nil
 }
 
-func (cc *cCache[T]) Delete(key string) {
+func (cc *cCache[T]) Delete(key string) error {
 	cc.cache.Delete(key)
+	return nil
 }

@@ -4,11 +4,10 @@ import (
 	"bytes"
 	"context"
 	"encoding/json"
+	"fmt"
 	"io"
 	"io/ioutil"
 	"net/http"
-
-	"github.com/pkg/errors"
 )
 
 type stdHttp struct {
@@ -47,7 +46,7 @@ func (sh *stdHttp) connect(ctx context.Context, method string, param RestParam) 
 	if param.JsonBodyData != nil {
 		jsonByte, err := json.Marshal(param.JsonBodyData)
 		if err != nil {
-			return 0, nil, errors.Wrap(err, "invalid json format")
+			return 0, nil, fmt.Errorf("invalid json format: %w", err)
 		}
 
 		reqBody = bytes.NewBuffer(jsonByte)
@@ -60,7 +59,7 @@ func (sh *stdHttp) connect(ctx context.Context, method string, param RestParam) 
 
 	req, err := http.NewRequestWithContext(ctx, method, param.Url, reqBody)
 	if err != nil {
-		return 0, nil, errors.Wrap(err, "failed to create http request")
+		return 0, nil, fmt.Errorf("failed to create http request: %w", err)
 	}
 
 	req.Header = param.Header
@@ -75,7 +74,7 @@ func (sh *stdHttp) connect(ctx context.Context, method string, param RestParam) 
 
 	resp, err := sh.client.Do(req)
 	if err != nil {
-		return 0, nil, errors.Wrap(err, "failed to execute http request")
+		return 0, nil, fmt.Errorf("failed to execute http request: %w", err)
 	}
 
 	statusCode := resp.StatusCode
@@ -87,7 +86,7 @@ func (sh *stdHttp) connect(ctx context.Context, method string, param RestParam) 
 	defer resp.Body.Close()
 	content, err := ioutil.ReadAll(resp.Body)
 	if err != nil {
-		return statusCode, nil, errors.Wrap(err, "failed to read response body")
+		return statusCode, nil, fmt.Errorf("failed to read response body: %w", err)
 	}
 
 	return statusCode, content, nil

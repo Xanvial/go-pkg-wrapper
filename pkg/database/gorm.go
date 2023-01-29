@@ -77,7 +77,7 @@ func NewGorm(cfg Config) (Database, error) {
 	}, nil
 }
 
-func (gd *gormDB) QueryRow(query string, result interface{}, params ...interface{}) error {
+func (gd *gormDB) QueryRow(query string, result any, params ...any) error {
 	dbTx := gd.db.Raw(query, params...).Scan(result)
 	if dbTx.Error != nil {
 		return dbTx.Error
@@ -85,7 +85,7 @@ func (gd *gormDB) QueryRow(query string, result interface{}, params ...interface
 	return nil
 }
 
-func (gd *gormDB) Query(query string, result interface{}, params ...interface{}) error {
+func (gd *gormDB) Query(query string, result any, params ...any) error {
 	dbTx := gd.db.Raw(query, params...).Scan(result)
 	if dbTx.Error != nil {
 		return dbTx.Error
@@ -93,7 +93,7 @@ func (gd *gormDB) Query(query string, result interface{}, params ...interface{})
 	return nil
 }
 
-func (gd *gormDB) Exec(query string, params ...interface{}) error {
+func (gd *gormDB) Exec(query string, params ...any) error {
 	dbTx := gd.db.Exec(query, params...)
 	if dbTx.Error != nil {
 		return dbTx.Error
@@ -101,7 +101,7 @@ func (gd *gormDB) Exec(query string, params ...interface{}) error {
 	return nil
 }
 
-func (gd *gormDB) ExecReturn(query string, params ...interface{}) (int, error) {
+func (gd *gormDB) ExecReturn(query string, params ...any) (int, error) {
 	var returning int
 	dbTx := gd.db.Raw(query, params...).Scan(&returning)
 	if dbTx.Error != nil {
